@@ -48,3 +48,7 @@ Allow javascript = true
 - Create HTML
 - Deploy to a web site (can be a storage account or static pages)
 - Point to the html on this site
+
+## API
+
+### Use API
