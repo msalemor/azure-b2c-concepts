@@ -1,4 +1,4 @@
-# azure-b2c-concepts
+# Azure B2C Concepts
 
 ## B2C Tenant
 
