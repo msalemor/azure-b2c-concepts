@@ -28,10 +28,10 @@ Allow javascript = true
 
 ### Run user flow (Testing)
 
-- Create an app called jwttest
+- Create an app called jwt.ms
 - Create an app registration
-- Set the implicit flow (get the token)
-- For the reply url use: jwt.ms
+- Set the implicit flow (get the token/id)
+- Set the reply URI to: https://jwt.ms
 
 ## Fields 
 
