@@ -35,11 +35,11 @@ Allow javascript = true
 
 ## Fields 
 
-## Creating Fields
+### Creating Fields
 
-## Renaming Fields
+### Renaming Fields
 
-## Rearranging Fields
+### Rearranging Fields
 
 ## Page Customization
 
