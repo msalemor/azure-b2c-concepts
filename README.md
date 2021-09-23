@@ -4,10 +4,12 @@
 
 ### Creation
 
-- Make sure the X provider is registered
+- Make sure the Microsoft.AzureActiveDirectory provider is registered for the subscription
 - Create a new B2C tenant in a resource group in a region
 - Switch to the B2C
   - > Note: The B2C tenant
+  - Reference:
+    - [MS Docs - Create a B2C tenant](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant)
 
 ### Data soveranty
 
