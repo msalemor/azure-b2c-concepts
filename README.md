@@ -102,41 +102,41 @@ namespace Verify_inator.Services
 Sample Validation
 ```c#
 [HttpPost()]
-        public IActionResult Post([FromBody] JsonElement body)
+public IActionResult Post([FromBody] JsonElement body)
+{
+    try
+    {
+        this._logger.LogInformation("A CMC Consultant ID code is being redeemed.");
+
+        // Look up the invitation code in the incoming request.
+        var cmcId = default(string);
+        var territoryName = default(string);
+        this._logger.LogInformation("Request properties:");
+        foreach (var element in body.EnumerateObject())
         {
-            try
+            this._logger.LogInformation($"- {element.Name}: {element.Value.GetRawText()}");
+            // The element name should be the full extension name as seen by the Graph API (e.g. "extension_appid_InvitationCode").
+            if (element.Name.Equals(this._b2cGraphService.GetUserAttributeExtensionName(Constants.UserAttributes.ConsultantID), StringComparison.InvariantCultureIgnoreCase))
             {
-                this._logger.LogInformation("A CMC Consultant ID code is being redeemed.");
-
-                // Look up the invitation code in the incoming request.
-                var cmcId = default(string);
-                var territoryName = default(string);
-                this._logger.LogInformation("Request properties:");
-                foreach (var element in body.EnumerateObject())
-                {
-                    this._logger.LogInformation($"- {element.Name}: {element.Value.GetRawText()}");
-                    // The element name should be the full extension name as seen by the Graph API (e.g. "extension_appid_InvitationCode").
-                    if (element.Name.Equals(this._b2cGraphService.GetUserAttributeExtensionName(Constants.UserAttributes.ConsultantID), StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        cmcId = element.Value.GetString();
-                    }
-                }
-
-                if (string.IsNullOrWhiteSpace(cmcId) || !Regex.IsMatch(cmcId, CMCID_REGEX))
-                {
-                    this._logger.LogInformation($"The provided CMC ID \"{cmcId}\" is invalid.");
-                    return GetValidationErrorApiResponse("UserInvitationRedemptionFailed-Invalid", "The invitation code you provided is invalid.");
-                }
-                else
-                {
-                    territoryName = GetRandoName();
-                    return GetContinueApiResponse("UserInvitationRedemptionSucceeded", "The invitation code you provided is valid.", cmcId, territoryName);
-                }
-            }
-            catch (Exception exc)
-            {
-                this._logger.LogError(exc, "Error while processing request body: " + exc.ToString());
-                return GetBlockPageApiResponse("UserInvitationRedemptionFailed-InternalError", "An error occurred while validating your invitation code, please try again later.");
+                cmcId = element.Value.GetString();
             }
         }
+
+        if (string.IsNullOrWhiteSpace(cmcId) || !Regex.IsMatch(cmcId, CMCID_REGEX))
+        {
+            this._logger.LogInformation($"The provided CMC ID \"{cmcId}\" is invalid.");
+            return GetValidationErrorApiResponse("UserInvitationRedemptionFailed-Invalid", "The invitation code you provided is invalid.");
+        }
+        else
+        {
+            territoryName = GetRandoName();
+            return GetContinueApiResponse("UserInvitationRedemptionSucceeded", "The invitation code you provided is valid.", cmcId, territoryName);
+        }
+    }
+    catch (Exception exc)
+    {
+        this._logger.LogError(exc, "Error while processing request body: " + exc.ToString());
+        return GetBlockPageApiResponse("UserInvitationRedemptionFailed-InternalError", "An error occurred while validating your invitation code, please try again later.");
+    }
+}
 ```
