@@ -16,11 +16,11 @@
 
 ## User Flows
 
-### Sign-in/register flow
+### Sign-in/Sign-out (SUSI) flow
 
-### Reset password
+### Reset password flow
 
-### Update Information
+### Edit flow
 
 ### Properties
 
